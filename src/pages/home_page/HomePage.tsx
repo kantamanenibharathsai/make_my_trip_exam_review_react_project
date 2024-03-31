@@ -17,7 +17,10 @@ interface IState {
     isToAirportsShown: boolean,
     selectedFromAirport: Airport,
     selectedToAirport: Airport,
-    isTravellersCardShown: boolean
+    isTravellersCardShown: boolean,
+    noOfAdults: number,
+    noofChildrens: number,
+    noOfInfants: number
 }
 
 const initialAirportDetails = {
@@ -40,6 +43,9 @@ const Home = () => {
     const [selectedDepartDate, setSelectedDepartDate] = useState(new Date());
     const [selectedReturnDate, setSelectedReturnDate] = useState(new Date());
     const [isTravellersCardShown, setIsTravellersCardShown] = useState<IState["isTravellersCardShown"]>(false);
+    const [noOfAdults, setNoOfAdults] = useState<IState["noOfAdults"]>(0);
+    const [noOfChildrens, setNoOfChildrens] = useState<IState["noofChildrens"]>(0);
+    const [noOfInfants, setNoOfInfants] = useState<IState["noOfInfants"]>(0);
 
 
     const tabListHandler = (tabId: number) => {
@@ -105,11 +111,25 @@ const Home = () => {
             toAirportName: selectedToAirport.airportName, toAirportCode: selectedToAirport.airportCode, fromAirportCity: selectedFromAirport.airportCity,
             toAirportCity: selectedToAirport.airportCity,
             departureDate: `${selectedDepartDate?.getDate()}-${months[selectedDepartDate?.getMonth()]}-${selectedDepartDate?.getFullYear().toString().slice(2)}`,
-            returnDate: `${selectedReturnDate?.getDate()}-${months[selectedReturnDate?.getMonth()]}-${selectedReturnDate?.getFullYear().toString().slice(2)}`
-
+            returnDate: `${selectedReturnDate?.getDate()}-${months[selectedReturnDate?.getMonth()]}-${selectedReturnDate?.getFullYear().toString().slice(2)}`,
+            noOfChildrens,
+            noOfInfants,
+            noOfAdults
         }
         localStorage.setItem("flight-details", JSON.stringify(newObj));
         navigate("/search")
+    }
+
+    const adultsBtnHandler = (noOfAdults: number) => {
+        setNoOfAdults(noOfAdults)
+    }
+
+    const childrensBtnHandler = (noOfChildrens: number) => {
+        setNoOfChildrens(noOfChildrens)
+    }
+
+    const infantsBtnHandler = (noOfInfants: number) => {
+        setNoOfInfants(noOfInfants)
     }
 
     return (
@@ -275,7 +295,7 @@ const Home = () => {
                                         <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
                                         <Box sx={homePageStyles.btnsCard}>
                                             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(eachBtnNum =>
-                                                (<Box component="button" key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
+                                                (<Box component="button" onClick={() => adultsBtnHandler(eachBtnNum)} key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
                                         </Box>
                                     </Box>
                                     <Stack direction={{ xs: "column", lg: "row" }} alignItems={{ lg: "center" }} justifyContent={{ lg: "space-between" }} gap={{ xs: 2, lg: 3 }}>
@@ -284,7 +304,7 @@ const Home = () => {
                                             <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
                                             <Box sx={homePageStyles.btnsCard}>
                                                 {[0, 1, 2, 3, 4, 5, 6].map(eachBtnNum =>
-                                                    (<Box component="button" key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
+                                                    (<Box component="button" onClick={() => childrensBtnHandler(eachBtnNum)} key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
                                             </Box>
                                         </Box>
 
@@ -294,7 +314,7 @@ const Home = () => {
                                             <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
                                             <Box sx={homePageStyles.btnsCard}>
                                                 {[0, 1, 2, 3, 4, 5, 6].map(eachBtnNum =>
-                                                    (<Box component="button" key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
+                                                    (<Box component="button" onClick={() => infantsBtnHandler(eachBtnNum)} key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
                                             </Box>
                                         </Box>
 
