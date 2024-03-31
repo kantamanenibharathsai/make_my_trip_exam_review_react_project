@@ -105,8 +105,8 @@ const Home = () => {
             toAirportName: selectedToAirport.airportName, toAirportCode: selectedToAirport.airportCode, fromAirportCity: selectedFromAirport.airportCity,
             toAirportCity: selectedToAirport.airportCity,
             departureDate: `${selectedDepartDate?.getDate()}-${months[selectedDepartDate?.getMonth()]}-${selectedDepartDate?.getFullYear().toString().slice(2)}`,
-            returnDate:   `${selectedReturnDate?.getDate()}-${months[selectedReturnDate?.getMonth()]}-${selectedReturnDate?.getFullYear().toString().slice(2)}`
-           
+            returnDate: `${selectedReturnDate?.getDate()}-${months[selectedReturnDate?.getMonth()]}-${selectedReturnDate?.getFullYear().toString().slice(2)}`
+
         }
         localStorage.setItem("flight-details", JSON.stringify(newObj));
         navigate("/search")
@@ -274,15 +274,8 @@ const Home = () => {
                                         <Typography sx={homePageStyles.name}>ADULTS (12y +)</Typography>
                                         <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
                                         <Box sx={homePageStyles.btnsCard}>
-                                            <Box component="button" sx={homePageStyles.numBtn}>1</Box>
-                                            <Box component="button" sx={homePageStyles.numBtn}>2</Box>
-                                            <Box component="button" sx={homePageStyles.numBtn}>2</Box>
-                                            <Box component="button" sx={homePageStyles.numBtn}>4</Box>
-                                            <Box component="button" sx={homePageStyles.numBtn}>5</Box>
-                                            <Box component="button" sx={homePageStyles.numBtn}>6</Box>
-                                            <Box component="button" sx={homePageStyles.numBtn}>7</Box>
-                                            <Box component="button" sx={homePageStyles.numBtn}>8</Box>
-                                            <Box component="button" sx={homePageStyles.numBtn}>9</Box>
+                                            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(eachBtnNum =>
+                                                (<Box component="button" key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
                                         </Box>
                                     </Box>
                                     <Stack direction={{ xs: "column", lg: "row" }} alignItems={{ lg: "center" }} justifyContent={{ lg: "space-between" }} gap={{ xs: 2, lg: 3 }}>
@@ -290,13 +283,8 @@ const Home = () => {
                                             <Typography sx={homePageStyles.name}>CHILDREN (2y - 12y)</Typography>
                                             <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
                                             <Box sx={homePageStyles.btnsCard}>
-                                                <Box component="button" sx={homePageStyles.numBtn}>0</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>1</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>2</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>3</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>4</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>5</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>6</Box>
+                                                {[0, 1, 2, 3, 4, 5, 6].map(eachBtnNum =>
+                                                    (<Box component="button" key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
                                             </Box>
                                         </Box>
 
@@ -305,13 +293,8 @@ const Home = () => {
                                             <Typography sx={homePageStyles.name}>INFANTS (below 2y)</Typography>
                                             <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
                                             <Box sx={homePageStyles.btnsCard}>
-                                                <Box component="button" sx={homePageStyles.numBtn}>0</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>1</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>2</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>3</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>4</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>5</Box>
-                                                <Box component="button" sx={homePageStyles.numBtn}>6</Box>
+                                                {[0, 1, 2, 3, 4, 5, 6].map(eachBtnNum =>
+                                                    (<Box component="button" key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
                                             </Box>
                                         </Box>
 
