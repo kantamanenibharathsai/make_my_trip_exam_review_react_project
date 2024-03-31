@@ -1,6 +1,6 @@
 const homePageStyles = {
   mainContainer: {
-    minHeight: "100vh",
+    height: "auto",
     width: "100%",
   },
 
@@ -8,11 +8,12 @@ const homePageStyles = {
     backgroundImage:
       "url('https://imgak.mmtcdn.com/pwa_v3/pwa_commons_assets/desktop/bg3.jpg')",
     backgroundSize: "cover",
-    minHeight: { xs: "100vh", lg: "35vw" },
+    minHeight: { xs: "100vh", lg: "auto" },
     width: "100%",
     display: "flex",
     flexDirection: "column",
     gap: "50px",
+    pb: {lg:"60px"}
   },
 
   navContainer: {
@@ -44,7 +45,7 @@ const homePageStyles = {
     position: "relative",
     pt: { xs: "90px", xl: "75px" },
     px: { xs: "5px", sm: "19px" },
-    border: "4px solid green",
+    // border: "4px solid green",
   },
 
   cardContainerTwo: {
@@ -53,7 +54,7 @@ const homePageStyles = {
     borderRadius: "14px",
     position: "absolute",
     top: "-50px",
-    height: "113px",
+    height: {xs:"110px", lg:"130px"},
     width: { xs: "100%", md: "90%" },
     padding: { xs: "10px 0px 0px 0px", md: "10px 20px 0px 20px" },
     margin: "auto",
@@ -121,12 +122,12 @@ const homePageStyles = {
   formContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: { xs: "space-between", lg: "flex-start" },
+    justifyContent: { xs: "space-between", md: "flex-start" },
     alignItems: "center",
     gap: { xs: 0, sm: 3 },
     // width: "100%",
     flexGrow: 1,
-    border: "2px solid red",
+    // border: "2px solid red",
   },
 
   radioContainer: {
@@ -162,7 +163,8 @@ const homePageStyles = {
   functionalityContainer: {
     padding: "20px 15px",
     // minHeight: "100px",
-    borderRight: "1px solid #E7E7E7",
+    borderRight: {xs:0, lg:"1px solid #E7E7E7"},
+    borderBottom: {xs: "1px solid #e7e7e7", lg: 0},
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
@@ -209,7 +211,7 @@ const homePageStyles = {
     opacity: 0,
     // display: "none",
     visibility: "hidden",
-    width: "330px",
+    width: {xs:"295px", sm:"330px"},
   },
 
   activeOptionsContainer: {
@@ -219,7 +221,7 @@ const homePageStyles = {
     top: "60px",
     left: "0px",
     height: "400px",
-    width: "330px",
+    width: {xs:"295px", sm:"330px"},
     overflowY: "auto",
     zIndex: 1,
     background: "#fff",
@@ -262,7 +264,7 @@ const homePageStyles = {
     px: 0.5,
     py: 2,
     boxSizing: "border-box",
-    borderBottom: "1px solid #C1C1C1",
+    borderBottom: "1px solid #e7e7e7",
     "&:last-child": {
       borderBottom: 0,
     },
@@ -295,6 +297,140 @@ const homePageStyles = {
     font: "700 15px Poppins",
     width: "13%",
   },
+
+  travellersCardContainer:{
+    height: {xs:"550px", lg:"380px"},
+    width: "auto",
+    right: {lg:0},
+    left: {xs: 0, lg: "auto"},
+    position: "absolute",
+    boxShadow: `rgba(0, 0, 0, 0.24) 0px 3px 8px`,
+    px:{xs: 1, sm: 2, md:5},
+    py:{xs: 2, sm: 3, md:4},
+    zIndex: 2,
+    top: "60px",
+    background: "#fff",
+    borderRadius: "16px",
+    transition: "1s ease all",
+    opacity: 1
+  },
+
+  inactiveTravellersCardContainer:{
+    height: "0",
+    width: "auto",
+    right: {lg:0},
+    left: {xs: 0, lg: "auto"},
+    position: "absolute",
+    boxShadow: `rgba(0, 0, 0, 0.24) 0px 3px 8px`,
+    px:{xs: 1, sm: 2, md:5},
+    py:{xs: 2, sm: 3, md:4},
+    zIndex: 2,
+    top: "60px",
+    background: "#fff",
+    borderRadius: "16px",
+    opacity: 0,
+    transition: "1s ease all",
+    display: 'none'
+  },
+
+  travellersCardContainerChild:{
+    display: "flex",
+    flexDirection: "column",
+    gap: 3
+  },
+
+  contentBtnscOntainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 0.6
+  },
+
+  name: {
+    color: "#000",
+    font: "700 12px Poppins",
+  },
+
+  onTheDay: {
+    color: "#B4B4B4",
+    font: "700 12px Poppins",
+  },
+
+  btnsCard: {
+    background: "#fff",
+    height: '39px',
+    borderRadius: "12px",
+    boxShadow: `rgba(0, 0, 0, 0.24) 0px 3px 8px`,
+    display: "flex",
+    alignItems: "center",
+    width: "max-content",
+  },
+
+  numBtn:{
+    cursor: "pointer",
+    border: "none",
+    outline: "none",
+    background: "#fff",
+    color: "#000",
+    font: "700 13px Poppins",
+    height: "inherit",
+    display: 'flex',
+    alignItems: "center",
+    width: {xs:"32px", sm:"35px"},
+    textAlign: "center",
+    justifyContent: "center",
+    "&:hover":{
+      background: "blue",
+      color: "white",
+      borderRadius: "4px"
+    }
+  },
+
+  economyBtns:{
+    display: 'flex',
+    alignItems: 'center',
+    height: {xs:"auto", sm:'38px'},
+    background: "#fff",
+    borderRadius: "12px",
+    boxShadow: `rgba(0, 0, 0, 0.24) 0px 3px 8px`,
+    width: "max-content",
+    flexDirection: {xs:"column", sm: "row"},
+    gap: {xs: 0, sm: 0},
+
+  },
+
+  economyBtn:{
+    width: "auto",
+    py: {xs: 2, sm: 0},
+    px: 1,
+    fontSize: "11px"
+  },
+
+  applyBtn:{
+    borderRadius: "30px",
+    height: '37px',
+    px: 4,
+    background: "#34c9eb",
+    color: "#fff",
+    font: "700 13px Poppins",
+    textTransform: 'capitalize',
+    alignSelf: "flex-end",
+    "&:hover":{
+      borderRadius: "30px",
+      height: '37px',
+      px: 4,
+      background: "#34c9eb",
+      color: "#fff",
+      font: "700 13px Poppins",
+      textTransform: 'capitalize'
+    }
+  },
+
+  searchBtnContainer:{
+    display: "flex",
+    alignItems: 'center',
+    justifyContent: "center",
+    mb: {xs: 2, lg: 0}
+  }
 };
 
 export default homePageStyles;

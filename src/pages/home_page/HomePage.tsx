@@ -1,4 +1,4 @@
-import { Box, Divider, Stack, Typography } from "@mui/material"
+import { Box, Button, Divider, Stack, Typography } from "@mui/material"
 import homePageStyles from "./HomePage.Styles"
 import { Airport, airportsList, tabsList, days, months } from "../../utils/typescript/HomePageData"
 import { useState } from "react"
@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import "../../App.css"
+import { useNavigate } from "react-router-dom"
 
 interface IState {
     activeTabItemId: number,
@@ -15,7 +16,8 @@ interface IState {
     isFromAirportsShown: boolean,
     isToAirportsShown: boolean,
     selectedFromAirport: Airport,
-    selectedToAirport: Airport
+    selectedToAirport: Airport,
+    isTravellersCardShown: boolean
 }
 
 const initialAirportDetails = {
@@ -28,6 +30,7 @@ const initialAirportDetails = {
 
 
 const Home = () => {
+    const navigate = useNavigate();
     const [activeTabItemId, setActiveTabItemId] = useState<IState["activeTabItemId"]>(1);
     const [activeRadioBtn, setActiveRadioBtn] = useState<IState["activeRadioBtn"]>("one-way");
     const [isFromAirportsShown, setIsFromAirportsShown] = useState<IState["isFromAirportsShown"]>(false);
@@ -36,6 +39,7 @@ const Home = () => {
     const [selectedToAirport, setSelectedToAirport] = useState<IState["selectedToAirport"]>(initialAirportDetails);
     const [selectedDepartDate, setSelectedDepartDate] = useState(new Date());
     const [selectedReturnDate, setSelectedReturnDate] = useState(new Date());
+    const [isTravellersCardShown, setIsTravellersCardShown] = useState<IState["isTravellersCardShown"]>(false);
 
 
     const tabListHandler = (tabId: number) => {
@@ -58,21 +62,25 @@ const Home = () => {
     const fromAirportsEventHandler = () => {
         setIsFromAirportsShown(isShown => !isShown)
         setIsToAirportsShown(false)
+        setIsTravellersCardShown(false)
     }
 
     const toAirportsEventHandler = () => {
         setIsToAirportsShown(isShown => !isShown)
         setIsFromAirportsShown(false)
+        setIsTravellersCardShown(false)
     }
 
     const eachFromAirportEventHandler = (airportObj: Airport) => {
         setSelectedFromAirport(airportObj)
         setIsFromAirportsShown(true)
+        setIsTravellersCardShown(false)
     }
 
     const eachToAirportEventHandler = (airportObj: Airport) => {
         setSelectedToAirport(airportObj)
         setIsToAirportsShown(true)
+        setIsTravellersCardShown(false)
     }
 
     const closeIconToAirportEventHandler = () => {
@@ -81,6 +89,27 @@ const Home = () => {
 
     const closeIconFromAirportEventHandler = () => {
         setIsFromAirportsShown(true)
+    }
+
+    const travellersCardHandler = () => {
+        setIsTravellersCardShown(isShown => !isShown)
+    }
+
+
+    const searchBtnHandler = () => {
+        setIsTravellersCardShown(false)
+        setIsFromAirportsShown(false)
+        setIsToAirportsShown(false)
+        const newObj = {
+            fromAirportName: selectedFromAirport.airportName, fromAirportCode: selectedFromAirport.airportCode,
+            toAirportName: selectedToAirport.airportName, toAirportCode: selectedToAirport.airportCode, fromAirportCity: selectedFromAirport.airportCity,
+            toAirportCity: selectedToAirport.airportCity,
+            departureDate: `${selectedDepartDate?.getDate()}-${months[selectedDepartDate?.getMonth()]}-${selectedDepartDate?.getFullYear().toString().slice(2)}`,
+            returnDate:   `${selectedReturnDate?.getDate()}-${months[selectedReturnDate?.getMonth()]}-${selectedReturnDate?.getFullYear().toString().slice(2)}`
+           
+        }
+        localStorage.setItem("flight-details", JSON.stringify(newObj));
+        navigate("/search")
     }
 
     return (
@@ -103,8 +132,8 @@ const Home = () => {
                                 </Stack>))}
                         </Box>
                     </Box>
-                    <Stack direction={{ xs: "column", md: "row" }} alignItems={"center"} justifyContent={"space-between"} sx={homePageStyles.stack}>
-                        <Stack direction={{ xs: "column", md: "row" }} gap={{ xs: 1.5, md: "0" }} alignItems={"center"} justifyContent={"space-between"} sx={homePageStyles.stack}>
+                    <Stack direction={{ xs: "column", md: "row" }} alignItems={"center"} justifyContent={"space-between"} sx={homePageStyles.stack} marginTop={{ lg: "40px" }}>
+                        <Stack direction={{ xs: "column", md: "row" }} gap={{ xs: 1.5, md: "0" }} alignItems={"center"} justifyContent={{ xs: "space-between", md: "flex-start" }} sx={homePageStyles.stack}>
                             <Box component={"form"} sx={homePageStyles.formContainer}>
                                 <Box sx={{ ...homePageStyles.radioContainer, background: activeRadioBtn === "one-way" ? "#EAF5FF" : "#fff" }}>
                                     <Box onChange={radioBtnsEventHandler} id="one-way" name="trip" component={"input"} type="radio" checked={"one-way" === activeRadioBtn} value="one-way" />
@@ -230,15 +259,82 @@ const Home = () => {
                         </Box>
 
 
-
-                        <Box sx={homePageStyles.functionalityContainer}>
+                        <Box sx={homePageStyles.functionalityContainer} onClick={travellersCardHandler}>
                             <Typography sx={homePageStyles.fromText}>Travellers & Class</Typography>
                             <Box>
                                 <Typography sx={homePageStyles.cityNametext}>7 <Box component="span" sx={homePageStyles.spanEl}>Travellers</Box></Typography>
                                 <Typography sx={homePageStyles.airpotNameText}>Economy/Premium Economy</Typography>
                             </Box>
+
+
+
+                            <Box sx={isTravellersCardShown ? homePageStyles.travellersCardContainer : homePageStyles.inactiveTravellersCardContainer}>
+                                <Box sx={homePageStyles.travellersCardContainerChild}>
+                                    <Box sx={homePageStyles.contentBtnscOntainer}>
+                                        <Typography sx={homePageStyles.name}>ADULTS (12y +)</Typography>
+                                        <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
+                                        <Box sx={homePageStyles.btnsCard}>
+                                            <Box component="button" sx={homePageStyles.numBtn}>1</Box>
+                                            <Box component="button" sx={homePageStyles.numBtn}>2</Box>
+                                            <Box component="button" sx={homePageStyles.numBtn}>2</Box>
+                                            <Box component="button" sx={homePageStyles.numBtn}>4</Box>
+                                            <Box component="button" sx={homePageStyles.numBtn}>5</Box>
+                                            <Box component="button" sx={homePageStyles.numBtn}>6</Box>
+                                            <Box component="button" sx={homePageStyles.numBtn}>7</Box>
+                                            <Box component="button" sx={homePageStyles.numBtn}>8</Box>
+                                            <Box component="button" sx={homePageStyles.numBtn}>9</Box>
+                                        </Box>
+                                    </Box>
+                                    <Stack direction={{ xs: "column", lg: "row" }} alignItems={{ lg: "center" }} justifyContent={{ lg: "space-between" }} gap={{ xs: 2, lg: 3 }}>
+                                        <Box sx={homePageStyles.contentBtnscOntainer}>
+                                            <Typography sx={homePageStyles.name}>CHILDREN (2y - 12y)</Typography>
+                                            <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
+                                            <Box sx={homePageStyles.btnsCard}>
+                                                <Box component="button" sx={homePageStyles.numBtn}>0</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>1</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>2</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>3</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>4</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>5</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>6</Box>
+                                            </Box>
+                                        </Box>
+
+
+                                        <Box sx={homePageStyles.contentBtnscOntainer}>
+                                            <Typography sx={homePageStyles.name}>INFANTS (below 2y)</Typography>
+                                            <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
+                                            <Box sx={homePageStyles.btnsCard}>
+                                                <Box component="button" sx={homePageStyles.numBtn}>0</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>1</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>2</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>3</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>4</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>5</Box>
+                                                <Box component="button" sx={homePageStyles.numBtn}>6</Box>
+                                            </Box>
+                                        </Box>
+
+
+                                    </Stack>
+                                    <Stack direction={"column"} gap={1}>
+                                        <Typography sx={homePageStyles.name}>CHOOSE TRAVEL CLASS</Typography>
+                                        <Box sx={homePageStyles.economyBtns}>
+                                            <Box component="button" sx={{ ...homePageStyles.numBtn, ...homePageStyles.economyBtn }}>Economy/Premium Economy</Box>
+                                            <Box component="button" sx={{ ...homePageStyles.numBtn, ...homePageStyles.economyBtn }}>Premium Economy</Box>
+                                            <Box component="button" sx={{ ...homePageStyles.numBtn, ...homePageStyles.economyBtn }}>Business</Box>
+                                        </Box>
+                                    </Stack>
+                                    <Stack direction={"column"} justifyContent={"flex-end"}>
+                                        <Button disableFocusRipple disableElevation disableRipple disableTouchRipple sx={homePageStyles.applyBtn}>Apply</Button>
+                                    </Stack>
+                                </Box>
+                            </Box>
                         </Box>
                     </Box>
+                </Box>
+                <Box sx={homePageStyles.searchBtnContainer}>
+                    <Button onClick={searchBtnHandler} disableFocusRipple disableElevation disableRipple disableTouchRipple sx={homePageStyles.applyBtn}>Search</Button>
                 </Box>
             </Box>
         </Box>
