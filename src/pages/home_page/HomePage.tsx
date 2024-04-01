@@ -20,7 +20,8 @@ interface IState {
     isTravellersCardShown: boolean,
     noOfAdults: number,
     noofChildrens: number,
-    noOfInfants: number
+    noOfInfants: number,
+    economySelection: string
 }
 
 const initialAirportDetails = {
@@ -46,6 +47,7 @@ const Home = () => {
     const [noOfAdults, setNoOfAdults] = useState<IState["noOfAdults"]>(0);
     const [noOfChildrens, setNoOfChildrens] = useState<IState["noofChildrens"]>(0);
     const [noOfInfants, setNoOfInfants] = useState<IState["noOfInfants"]>(0);
+    const [economySelection, setEconomySelection] = useState<IState["economySelection"]>("Economy/Premium Economy")
 
 
     const tabListHandler = (tabId: number) => {
@@ -121,15 +123,32 @@ const Home = () => {
     }
 
     const adultsBtnHandler = (noOfAdults: number) => {
+        setIsTravellersCardShown(false)
         setNoOfAdults(noOfAdults)
     }
 
     const childrensBtnHandler = (noOfChildrens: number) => {
+        setIsTravellersCardShown(false)
         setNoOfChildrens(noOfChildrens)
     }
 
     const infantsBtnHandler = (noOfInfants: number) => {
+        setIsTravellersCardShown(false)
         setNoOfInfants(noOfInfants)
+    }
+
+    const economyEventHandler = (economy: string) => {
+        setIsTravellersCardShown(false)
+        switch (economy) {
+            case "Economy/Premium Economy":
+                setEconomySelection(economy);
+                break;
+            case "Premium Economy":
+                setEconomySelection(economy);
+                break;
+            default:
+                setEconomySelection(economy);
+        }
     }
 
     return (
@@ -200,21 +219,13 @@ const Home = () => {
                                     ))}
                                 </Box>
                             </Box>
-
                         </Box>
-
-
-
                         <Box sx={homePageStyles.functionalityContainer} onClick={toAirportsEventHandler}>
                             <Typography sx={homePageStyles.fromText}>To</Typography>
                             <Box>
                                 <Typography sx={homePageStyles.cityNametext}>{selectedToAirport.airportCity}</Typography>
                                 <Typography sx={homePageStyles.airpotNameText}>{selectedToAirport.airportCode}, {selectedToAirport.airportName}, India</Typography>
                             </Box>
-
-
-
-
                             <Box sx={isToAirportsShown ? homePageStyles.activeOptionsContainer : homePageStyles.optionsContainer}>
                                 <Box sx={homePageStyles.closeIconBtn} onClick={closeIconToAirportEventHandler}>
                                     <CloseIcon sx={homePageStyles.closeIcon} />
@@ -234,11 +245,7 @@ const Home = () => {
                                     ))}
                                 </Box>
                             </Box>
-
                         </Box>
-
-
-
                         <Box sx={homePageStyles.functionalityContainer}>
                             <Stack direction={"row"} alignItems={"center"} gap={1}>
                                 <Typography sx={homePageStyles.fromText}>Departure</Typography>
@@ -257,9 +264,6 @@ const Home = () => {
                                 id="datePickerOne"
                             />
                         </Box>
-
-
-
                         <Box sx={homePageStyles.functionalityContainer}>
                             <Stack direction={"row"} alignItems={"center"} gap={1}>
                                 <Typography sx={homePageStyles.fromText}>Return</Typography>
@@ -277,17 +281,12 @@ const Home = () => {
                                 id="datePickerTwo"
                             />
                         </Box>
-
-
                         <Box sx={homePageStyles.functionalityContainer} onClick={travellersCardHandler}>
                             <Typography sx={homePageStyles.fromText}>Travellers & Class</Typography>
                             <Box>
-                                <Typography sx={homePageStyles.cityNametext}>7 <Box component="span" sx={homePageStyles.spanEl}>Travellers</Box></Typography>
-                                <Typography sx={homePageStyles.airpotNameText}>Economy/Premium Economy</Typography>
+                                <Typography sx={homePageStyles.cityNametext}>{noOfAdults + noOfChildrens + noOfInfants} <Box component="span" sx={homePageStyles.spanEl}>Travellers</Box></Typography>
+                                <Typography sx={homePageStyles.airpotNameText}>{economySelection}</Typography>
                             </Box>
-
-
-
                             <Box sx={isTravellersCardShown ? homePageStyles.travellersCardContainer : homePageStyles.inactiveTravellersCardContainer}>
                                 <Box sx={homePageStyles.travellersCardContainerChild}>
                                     <Box sx={homePageStyles.contentBtnscOntainer}>
@@ -295,7 +294,7 @@ const Home = () => {
                                         <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
                                         <Box sx={homePageStyles.btnsCard}>
                                             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(eachBtnNum =>
-                                                (<Box component="button" onClick={() => adultsBtnHandler(eachBtnNum)} key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
+                                                (<Box component="button" onClick={() => adultsBtnHandler(eachBtnNum)} key={eachBtnNum} sx={{ ...homePageStyles.numBtn, background: eachBtnNum === noOfAdults ? "#008CFF" : "#fff", color: eachBtnNum !== noOfAdults ? "#000" : "#fff" }}>{eachBtnNum}</Box>))}
                                         </Box>
                                     </Box>
                                     <Stack direction={{ xs: "column", lg: "row" }} alignItems={{ lg: "center" }} justifyContent={{ lg: "space-between" }} gap={{ xs: 2, lg: 3 }}>
@@ -304,28 +303,24 @@ const Home = () => {
                                             <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
                                             <Box sx={homePageStyles.btnsCard}>
                                                 {[0, 1, 2, 3, 4, 5, 6].map(eachBtnNum =>
-                                                    (<Box component="button" onClick={() => childrensBtnHandler(eachBtnNum)} key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
+                                                    (<Box component="button" onClick={() => childrensBtnHandler(eachBtnNum)} key={eachBtnNum} sx={{ ...homePageStyles.numBtn, background: eachBtnNum === noOfChildrens ? "#008CFF" : "#fff", color: eachBtnNum !== noOfChildrens ? "#000" : "#fff" }}>{eachBtnNum}</Box>))}
                                             </Box>
                                         </Box>
-
-
                                         <Box sx={homePageStyles.contentBtnscOntainer}>
                                             <Typography sx={homePageStyles.name}>INFANTS (below 2y)</Typography>
                                             <Typography sx={homePageStyles.onTheDay}>on the day of travel</Typography>
                                             <Box sx={homePageStyles.btnsCard}>
                                                 {[0, 1, 2, 3, 4, 5, 6].map(eachBtnNum =>
-                                                    (<Box component="button" onClick={() => infantsBtnHandler(eachBtnNum)} key={eachBtnNum} sx={homePageStyles.numBtn}>{eachBtnNum}</Box>))}
+                                                    (<Box component="button" onClick={() => infantsBtnHandler(eachBtnNum)} key={eachBtnNum} sx={{ ...homePageStyles.numBtn, background: eachBtnNum === noOfInfants ? "#008CFF" : "#fff", color: eachBtnNum !== noOfInfants ? "#000" : "#fff" }}>{eachBtnNum}</Box>))}
                                             </Box>
                                         </Box>
-
-
                                     </Stack>
                                     <Stack direction={"column"} gap={1}>
                                         <Typography sx={homePageStyles.name}>CHOOSE TRAVEL CLASS</Typography>
                                         <Box sx={homePageStyles.economyBtns}>
-                                            <Box component="button" sx={{ ...homePageStyles.numBtn, ...homePageStyles.economyBtn }}>Economy/Premium Economy</Box>
-                                            <Box component="button" sx={{ ...homePageStyles.numBtn, ...homePageStyles.economyBtn }}>Premium Economy</Box>
-                                            <Box component="button" sx={{ ...homePageStyles.numBtn, ...homePageStyles.economyBtn }}>Business</Box>
+                                            <Box onClick={() => economyEventHandler("Economy/Premium Economy")} component="button" sx={{ ...homePageStyles.numBtn, ...homePageStyles.economyBtn, background: economySelection === "Economy/Premium Economy" ? "#008CFF" : "#fff", color: economySelection !== "Economy/Premium Economy" ? "#000" : "#fff" }}>Economy/Premium Economy</Box>
+                                            <Box onClick={() => economyEventHandler("Premium Economy")} component="button" sx={{ ...homePageStyles.numBtn, ...homePageStyles.economyBtn, background: economySelection === 'Premium Economy' ? "#008CFF" : "#fff", color: economySelection !== 'Premium Economy' ? "#000" : "#fff" }}>Premium Economy</Box>
+                                            <Box onClick={() => economyEventHandler("Business")} component="button" sx={{ ...homePageStyles.numBtn, ...homePageStyles.economyBtn, background: economySelection === "Business" ? "#008CFF" : "#fff", color: economySelection !== "Business" ? "#000" : "#fff" }}>Business</Box>
                                         </Box>
                                     </Stack>
                                     <Stack direction={"column"} justifyContent={"flex-end"}>

@@ -9,9 +9,6 @@ const searchPageStyles = {
         margin: "auto",
         height: "99vh",
         py: "50px",
-        // display: "flex",
-        // flexDirectionn: 'column',
-        // gap: "80px"
     },
 
     heading : {
@@ -47,7 +44,6 @@ const searchPageStyles = {
         gap: {xs: 3, lg: 5},
         alignItems: {xs: "strech", lg: "center"},
         justifyContent :"space-between",
-        // border: "3px solid red"
     },
 
     flightLogo:{

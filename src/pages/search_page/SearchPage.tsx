@@ -50,7 +50,6 @@ const SearchPage = () => {
                                 <Typography sx={searchPageStyles.cityName}>per adult</Typography>
                             </Stack>
                         </Box>
-
                         <Box sx={searchPageStyles.bottomContainer}>
                             <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} gap={{lg: 5}}>
                             <Stack direction={"column"} gap={0.9}>
